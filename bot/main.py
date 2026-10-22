@@ -1,14 +1,16 @@
 import os
 import telebot
-import bot.handlers as handlers
+from bot.handlers import register_handlers
 
 if __name__ == "__main__":
     token = os.getenv("BOT_TOKEN")
     if not token:
         raise ValueError("BOT_TOKEN не задан. Проверьте файл .env")
     
-    # Инициализируем бота с реальным токеном из .env
-    handlers.bot = telebot.TeleBot(token)
+    bot = telebot.TeleBot(token)
+    
+    # Регистрируем все хендлеры
+    register_handlers(bot)
     
     print("Бот запущен...")
-    handlers.bot.infinity_polling()
+    bot.infinity_polling()
