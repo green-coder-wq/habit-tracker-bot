@@ -1,10 +1,10 @@
+import os
 import httpx
-from app.core.config import settings
 
 class ApiClient:
     def __init__(self):
-        self.base_url = settings.API_BASE_URL
-        self.bot_token = settings.BOT_SECRET
+        self.base_url = os.getenv("API_BASE_URL", "http://api:8000/api/v1")
+        self.bot_token = os.getenv("BOT_SECRET", "super_secret_bot_api_token")
         self.headers = {"X-Bot-Token": self.bot_token}
 
     async def get_user_token(self, telegram_id: int, username: str) -> str:
