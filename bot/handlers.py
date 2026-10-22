@@ -1,15 +1,9 @@
-import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from bot.api_client import api_client
 
-# Инициализируем бота прямо здесь. 
-# Токен подставится через переменную окружения при импорте.
-bot = telebot.TeleBot(os.getenv("BOT_TOKEN", "dummy_token_for_build")) 
-
 user_tokens = {}
 
-@bot.message_handler(commands=['start'])
-def start_message(message):
+def handle_start(message, bot):
     try:
         import asyncio
         token = asyncio.run(api_client.get_user_token(message.from_user.id, message.from_user.username))
@@ -18,12 +12,11 @@ def start_message(message):
     except Exception as e:
         bot.reply_to(message, f"Ошибка авторизации: {e}")
 
-@bot.message_handler(commands=['add'])
-def add_habit(message):
+def handle_add(message, bot):
     msg = bot.reply_to(message, "Введите название привычки:")
-    bot.register_next_step_handler(msg, process_add_habit)
+    bot.register_next_step_handler(msg, lambda m: process_add_habit(m, bot))
 
-def process_add_habit(message):
+def process_add_habit(message, bot):
     token = user_tokens.get(message.from_user.id)
     if not token:
         bot.reply_to(message, "Сначала напишите /start")
@@ -35,8 +28,7 @@ def process_add_habit(message):
     except Exception as e:
         bot.reply_to(message, f"Ошибка: {e}")
 
-@bot.message_handler(commands=['habits'])
-def list_habits(message):
+def handle_habits(message, bot):
     token = user_tokens.get(message.from_user.id)
     if not token:
         bot.reply_to(message, "Сначала напишите /start")
@@ -57,8 +49,7 @@ def list_habits(message):
     except Exception as e:
         bot.reply_to(message, f"Ошибка: {e}")
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith('log_'))
-def callback_log(call):
+def handle_callback(call, bot):
     token = user_tokens.get(call.from_user.id)
     _, habit_id, status = call.data.split('_')
     try:
