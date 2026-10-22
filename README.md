@@ -1,48 +1,30 @@
 Habit Tracker Bot
+
 Сервис для трекинга привычек через Telegram-бот с бэкендом на FastAPI.
 
-Стек технологий
-Backend: FastAPI, SQLAlchemy (async), Alembic.
-Database: PostgreSQL.
-Bot: pyTelegramBotAPI.
-Scheduler: APScheduler.
-Infrastructure: Docker Compose, Poetry.
+Стек технологий:
+- Backend: FastAPI, SQLAlchemy (async), Alembic.
+- Database: PostgreSQL.
+- Bot: pyTelegramBotAPI.
+- Scheduler: APScheduler.
+- Infrastructure: Docker Compose, Poetry.
 
-Запуск проекта
-Клонируйте репозиторий:
-git clone https://github.com/green-coder-wq/habit-tracker-bot.git
-cd habit-tracker-bot
+Запуск проекта:
+1. Клонируйте репозиторий: git clone https://github.com/green-coder-wq/habit-tracker-bot.git
+2. Перейдите в папку: cd habit-tracker-bot
+3. Создайте файл .env: cp .env.example .env
+4. Заполните .env (BOT_TOKEN, BOT_SECRET).
+5. Запустите: docker-compose up --build
+6. API доступно по адресу: http://localhost:8000/docs
 
-Создайте файл .env на основе шаблона:
-cp .env.example .env
+Архитектура и безопасность:
+- Уровень 1: Бот передает X-Bot-Token в заголовках.
+- Уровень 2: Пользователь получает JWT-токен после /start.
+- Хранение паролей: хеширование через passlib (bcrypt).
+- Миграции: применяются автоматически при старте.
 
-Заполните .env:
-
-BOT_TOKEN — токен вашего бота от @BotFather (обязательно).
-
-BOT_SECRET — любой секретный ключ для защиты API (придумайте сами).
-
-Остальные переменные (POSTGRES, JWT) можно оставить по умолчанию или изменить.
-
-Запустите проект:
-docker-compose up --build
-
-API будет доступно по адресу: http://localhost:8000/docs
-
-Архитектура и безопасность
-Уровень 1: Бот передает X-Bot-Token в заголовках для доступа к API.
-
-Уровень 2: Пользователь получает JWT-токен после вызова команды /start в боте.
-
-Хранение паролей: предусмотрено хеширование через passlib (bcrypt).
-
-Миграции: применяются автоматически при старте контейнера api.
-
-Функционал
-Добавление, редактирование и удаление привычек.
-
-Отметка выполнения привычек (выполнено / не выполнено).
-
-Механизм переноса привычек (target_days по умолчанию 21 день).
-
-Ежедневные оповещения через APScheduler.
+Функционал:
+- Добавление, редактирование и удаление привычек.
+- Отметка выполнения (выполнено / не выполнено).
+- Механизм переноса (target_days = 21).
+- Ежедневные оповещения через APScheduler.
