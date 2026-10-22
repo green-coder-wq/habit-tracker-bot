@@ -2,7 +2,8 @@ import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from bot.api_client import api_client
 
-bot = telebot.TeleBot("PLACEHOLDER_TOKEN") 
+# Инициализация бота будет происходить в main.py после чтения токена из .env
+bot = None 
 
 # Словарь для хранения токенов пользователей (в продакшене лучше Redis)
 user_tokens = {}
