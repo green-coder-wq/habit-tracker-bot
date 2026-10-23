@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "habit-tracker-bot"
+version = "0.1.0"
+description = "Telegram bot for habit tracking with FastAPI backend"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.0"
+uvicorn = {extras = ["standard"], version = "^0.30.1"}
+sqlalchemy = "^2.0.30"
+asyncpg = "^0.29.0"
+alembic = "^1.13.1"
+pydantic = "^2.7.1"
+pydantic-settings = "^2.2.1"
+pyjwt = "^2.8.0"
+pyTelegramBotAPI = "^4.17.0"
+httpx = "^0.27.0"
+apscheduler = "^3.10.4"
+passlib = "^1.7.4"
+bcrypt = "4.0.1"
+python-dotenv = "^1.0.1"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
